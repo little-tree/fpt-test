@@ -22,18 +22,16 @@
 		<div id="main">
 			<div id="info"></div>
 			<div id="contents" class="main contents_box pt15 pl15 mt10">
-				<form id="bookForm" th:action="@{/book/add}" th:object="${book}"
+				<form id="bookForm" th:action="@{/book/edit}" th:object="${book}"
 					method="post">
-					<p class="ml20">
-						<a href="javascript:{}" th:onclick="'javascript:registerBook()'"
-							id="saveBtn" class="submit_btn" tabindex="15">Register</a> 
-					</p>
+					<input id="id" name="id" hidden="hidden" th:value="*{id}" />
+
 					<!-- Name -->
 					<p class="mt10 ml20">
 						<label class="w130 default_label bold_label">Name</label> <span
-							class="required"> ※ </span> <input id="title"
-							class="w650 ime_active" name="title" type="text" maxlength="50"
-							th:field="*{name}" tabindex="2"></input>
+							class="required"> ※ </span> <input id="name"
+							class="w650 ime_active" name="name" type="text" maxlength="50"
+							th:field="*{name}" tabindex="1"></input>
 					</p>
 
 					<!-- Publisher -->
@@ -53,13 +51,16 @@
 							style="float: left; margin-left: 5px; margin-right: 5px; margin-top: 7px;">
 							※ </span> <input id="page" maxlength="200" name="page"
 							class="w650 ime_active" style="max-width: 634px;"
-							th:field="*{page}" tabindex="3" type="number"></input>
+							th:value="*{page}" tabindex="3"></input>
 					</p>
 
 					<br />
-
-					<button type="button" th:onclick="'javascript:returnBookList()'">Return</button>
+					<p class="ml20">
+						<a href="javascript:{}" th:onclick="'javascript:updateBook()'"
+							id="saveBtn" class="submit_btn" tabindex="4">Update</a>
+					</p>
 				</form>
+				<button type="button" th:onclick="'javascript:returnBookList()'">Return</button>
 			</div>
 		</div>
 	</div>
@@ -68,15 +69,13 @@
 		$(document).ready(function() {
 		});
 
-		// Temporary save or Registration/Update button
-		function registerBook() {
+		function updateBook() {
+// 			console.log("update");
 			/*<![CDATA[*/
-			// Set value for temporary save or registration		
-			// Define method for click OK button in confirm dialog
 			var x;
 			var y;
 			var z;
-			x = document.getElementById("title").value;
+			x = document.getElementById("name").value;
 			y = document.getElementById("publisher").value;
 			z = document.getElementById("page").value;
 			if (x == "" || y == "" || z == "") {
@@ -84,6 +83,7 @@
 				return false;
 			}
 			document.getElementById('bookForm').submit();
+
 			/*]]>*/
 		}
 

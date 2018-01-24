@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
 	 * @return Sort object
 	 */
 	private Sort sortBook() {
-		Order id= new Order(Sort.Direction.DESC, "id");
+		Order id= new Order(Sort.Direction.ASC, "id");
         return new Sort(id);
     }
 	

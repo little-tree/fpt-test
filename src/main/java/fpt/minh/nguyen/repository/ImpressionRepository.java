@@ -19,7 +19,7 @@ public interface ImpressionRepository extends JpaRepository<Impression, Integer>
 	 * @param status the registration_status
 	 * @return List of NoticeInformation
 	 */
-	@Query(value = "SELECT n.id, n.name, n.book_id FROM impression_tbl n WHERE book_id = :bookId ORDER BY n.id DESC", nativeQuery = true)
+	@Query(value = "SELECT n.id, n.name, n.book_id FROM impression_tbl n WHERE book_id = :bookId ORDER BY n.id ASC", nativeQuery = true)
 	List<Impression> findAllImpressionWithBookId(@Param("bookId") String bookId);
 
 }

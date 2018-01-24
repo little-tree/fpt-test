@@ -49,26 +49,27 @@ function post(path, params, method) {
 }
 
 // Click edit button
-function editBook(bookId) {
-	window.location.href= window.location.href + "/edit?id=" + bookId;
+function editImpression(impressionId, bookId) {
+	window.location.href= "./edit/" + bookId + "?id=" + impressionId;
 };
 
 // Click delete button
-function deleteBook(bookId) {
-	post("/book/delete?id="+bookId);
+function deleteImpression(impressionId, bookId) {
+	post("/impression/delete/" + bookId + "?id=" + impressionId);
 // 	window.location.href= window.location.href + "/delete?id=" + bookId;
 };
 
 //Click delete button
-function registerBook() {
-	console.log(window.location.href);
-	window.location.href = window.location.href + "/add";
+function registerImpression(bookId) {
+	window.location.href = "./add/" + bookId;
 };
 
 function showImpressionList(bookId) {
-	console.log(window.location.href);
 	window.location.href = "../impression/" + bookId;
-	console.log(window.location.href);
+}
+
+function returnBookList() {
+	window.location.href = "../book";
 }
 </script>
 </head>
@@ -80,34 +81,29 @@ function showImpressionList(bookId) {
 				style="min-height: 500px;">
 				<div id="action_group" class="text_right pr30">
 					<div>
-					<button type="button" th:onclick="'javascript:registerBook()'">Register new book</button>
+					<button type="button" th:onclick="'javascript:registerImpression('+ ${bookId} + ')'">Register new impression</button>
+					<button type="button" th:onclick="'javascript:returnBookList()'">Return</button>
+					
 					</div>
 				</div>
-				<div id="book_table" class="table_list mt45 pl15 pb15">
+				<div id="impression_table" class="table_list mt45 pl15 pb15">
 					<table>
 						<thead>
 							<tr style="height: 27px;">
-								<th  style="width: 50px;max-width: 50px">ID</th>
-								<th style="width: 166px;" >Name</th>
-								<th style="width: 131px;" >Publisher</th>
-								<th style="width: 150px;" >Number of pages</th>
-								<th style="width: 669px;" ></th>
+								<th  style="width: 50px;">ID</th>
+								<th style="width: 50px;" >Comment</th>
+								<th style="width: 50px;" ></th>
 								
 							</tr>
 						</thead>
-						<tbody th:if="${bookList}">
-							<tr th:each="book:${bookList}" style="position: relative;">
-								<td style="width: 57px;max-width: 57px" class="text_center" th:text="${book.id}"></td>
-								<td style="width: 150px;max-width: 150px" class="text_center"
-									th:text="${book.name}"></td>
-								<td style="width: 150px;max-width: 150px" class="text_center"
-									th:text="${book.publisher}"></td>
-								<td style="width: 150px;max-width: 150px" class="text_center"
-									th:text="${book.page}"></td>
+						<tbody th:if="${impressionList}">
+							<tr th:each="impression:${impressionList}" style="position: relative;">
+								<td style="width: 50px;" class="text_center" th:text="${impression.id}"></td>
+								<td style="width: 50px;" class="text_center"
+									th:text="${impression.name}"></td>
 								<td style="width: 669px;" class="text_center">
-									<button type="button" th:onclick="'javascript:editBook(' + ${book.id} + ')'">Edit</button>
-									<button type="button" th:onclick="'javascript:deleteBook(' + ${book.id} + ')'">Delete</button>
-									<button type="button" th:onclick="'javascript:showImpressionList(' + ${book.id} + ')'">Show Impression</button>
+									<button type="button" th:onclick="'javascript:editImpression(' + ${impression.id} + ',' + ${bookId} + ')'">Edit</button>
+									<button type="button" th:onclick="'javascript:deleteImpression(' + ${impression.id} + ',' + ${bookId} + ')'">Delete</button>
 								</td>
 							</tr>
 						</tbody>

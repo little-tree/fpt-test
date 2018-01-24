@@ -43,6 +43,7 @@ public class ImpressionController {
 	public String openImpressionListScreen(Model model, @PathVariable("bookId") String bookId) {
 		List<Impression> impressionList = impressionService.findAllImpressionsByBookId(bookId);
 		model.addAttribute("impressionList", impressionList);
+		model.addAttribute("bookId", bookId);
 
 		return "impression/impression_list";
 	}
@@ -50,7 +51,7 @@ public class ImpressionController {
 	@RequestMapping(value = "/impression/edit/{bookId}", method = RequestMethod.GET)
 	public String openImpressionEditScreen(Model model, @ModelAttribute("impression") Impression impression,
 			@PathVariable("bookId") int bookId, BindingResult result,
-			@RequestParam(name = "selectedImpressionId") int id) {
+			@RequestParam(name = "id") int id) {
 		Book foundBook = bookService.findBook(bookId);
 		if (foundBook != null) {
 			Impression foundImpression = impressionService.findImpression(id);
@@ -62,8 +63,8 @@ public class ImpressionController {
 
 	@RequestMapping(value = "/impression/add/{bookId}", method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded; charset=UTF-8", produces = "text/html; charset=UTF-8")
 	public String registerImpression(Model model, @ModelAttribute Impression impression,
-			@PathVariable("bookId") int bookId) {
-		Book foundBook = bookService.findBook(bookId);
+			@PathVariable("bookId") String bookId) {
+		Book foundBook = bookService.findBook(Integer.parseInt(bookId));
 		if (foundBook != null) {
 			impressionService.createImpression(impression);
 		}
@@ -78,13 +79,16 @@ public class ImpressionController {
 		if (bookT == null) {
 			throw new NullBookException();
 		}
+		if (impression == null) {
+			System.out.println("impression null");
+		}
 		impressionService.updateImpression(impression.getId(), impression);
 
 		return "redirect:/impression/" + bookId;
 	}
 
 	@RequestMapping(value = "/impression/delete/{bookId}", method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
-	public String deleteImpression(Model model, @RequestParam(value = "selectedImpressionId") int id,
+	public String deleteImpression(Model model, @RequestParam(value = "id") int id,
 			@PathVariable("bookId") int bookId) {
 		impressionService.deleteImpression(id);
 

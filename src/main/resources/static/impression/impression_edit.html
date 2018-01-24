@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head lang="ja" th:fragment="site-head">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+<link rel="stylesheet"
+	th:href="@{/plugins/jquery-ui-1.12.1/jquery-ui.css}" type="text/css" />
+
+<script th:src="@{/lib/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script type="text/javascript"
+	th:src="@{/plugins/jquery-ui-1.12.1/jquery-ui.js}"></script>
+
+</head>
+
+<body>
+
+
+	<div id="container">
+		<div id="main">
+			<div id="info"></div>
+			<div id="contents" class="main contents_box pt15 pl15 mt10">
+				<form id="impressionForm"
+					th:action="@{/impression/edit/{path}(path=*{bookId})}"
+					th:object="${impression}" method="post">
+					<input id="bookId" name="bookId" hidden="hidden"
+						th:value="*{bookId}" /> <input id="id" name="id" hidden="hidden"
+						th:value="*{id}" />
+
+					<!-- Comment -->
+					<p class="mt10 ml20">
+						<label class="w130 default_label bold_label">Comment</label> <span
+							class="required"> ※ </span>
+						<textarea id="name" maxlength="200" name="name"
+							class="formTextarea w650 ime_active" style="max-width: 634px;"
+							th:field="*{name}" tabindex="3"></textarea>
+					</p>
+
+
+					<br />
+					<p class="ml20">
+						<a href="javascript:{}"
+							th:onclick="'javascript:updateImpression(' + *{bookId} + ')'"
+							id="saveBtn" class="submit_btn" tabindex="4">Update</a>
+					</p>
+				</form>
+				<button type="button"
+					th:onclick="'javascript:returnImpressionList(' + *{bookId} + ')'">Return</button>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+		$(document).ready(function() {
+		});
+
+		function updateImpression(bookId) {
+			/*<![CDATA[*/
+			var x;
+			x = document.getElementById("name").value;
+			if (x == "") {
+				alert("Please enter information");
+				return false;
+			}
+			document.getElementById('impressionForm').submit();
+
+			/*]]>*/
+		}
+
+		function returnImpressionList(bookId) {
+			window.location.href = "../" + bookId;
+		}
+	</script>
+</body>
+</html>
