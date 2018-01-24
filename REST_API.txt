@@ -1,0 +1,27 @@
+I. Book API
+1. List all the book 
+	GET /book/
+2. Register new book
+	POST /book/add
+3. Update existed book
+	POST /book/edit
+4. Delete existed book
+	POST /book/delete
+5. Open register screen
+	GET /book/register
+6. Open update screen
+	GET /book/edit
+	
+II. Impression API
+1. List all the impression of a book
+	GET /impression/{book_id}
+2. Register new impression for a book
+	POST /impression/add/{book_id}
+3. Update existed impression of a book
+	POST /impression/edit/{book_id}
+4. Delete existed impression of a book
+	POST /impression/delete/{book_id}
+5. Open register screen
+	GET /impression/register/{book_id}
+6. Open update screen
+	GET /impression/edit/{book_id}

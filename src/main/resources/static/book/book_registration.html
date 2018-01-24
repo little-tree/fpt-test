@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head lang="ja" th:fragment="site-head">
+<title>お知らせ登録・編集</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+<link rel="stylesheet"
+	th:href="@{/plugins/jquery-ui-1.12.1/jquery-ui.css}"
+	type="text/css" />
+
+<script th:src="@{/lib/jquery/dist/jquery.min.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+<script type="text/javascript"
+	th:src="@{/plugins/jquery-ui-1.12.1/jquery-ui.js}"></script>
+
+</head>
+
+<body>
+
+
+	<div id="container">
+		<div id="main">
+			<div id="info"></div>
+			<div id="contents" class="main contents_box pt15 pl15 mt10">
+				<form id="noticeForm" th:action="@{/book/add}"
+					th:object="${book}" method="post">
+					<p class="ml20">
+						<a href="javascript:{}"
+							th:onclick="'javascript:submitBtn(\''+'noticeForm' + '\', \''+ '1' + '\' )'"
+							id="saveBtn" class="submit_btn" tabindex="15">Register</a> <input
+							id="registrationStatus" name="registrationStatus" hidden="hidden"
+							value="" />
+					</p>
+					<!-- Name -->
+					<p class="mt10 ml20">
+						<label class="w130 default_label bold_label">Name</label> <span
+							class="required"> ※ </span> <input id="title"
+							class="w650 ime_active" name="title" type="text" maxlength="50"
+							th:field="*{name}" tabindex="2"></input>
+					</p>
+
+					<!-- Publisher -->
+					<p class="mt10 ml20">
+						<label class="w130 default_label bold_label" style="float: left;">Publisher</label>
+						<span class="required"
+							style="float: left; margin-left: 5px; margin-right: 5px; margin-top: 7px;">
+							※ </span>
+						<textarea id="contents" maxlength="200" name="contents"
+							class="formTextarea w650 ime_active" style="max-width: 634px;" th:field="*{publisher}" tabindex="3"></textarea>
+					</p>
+					
+					
+					<!-- Number of pages -->
+					<p class="mt10 ml20">
+						<label class="w130 default_label bold_label" style="float: left;">Number of pages</label>
+						<span class="required"
+							style="float: left; margin-left: 5px; margin-right: 5px; margin-top: 7px;">
+							※ </span>
+						<textarea id="contents" maxlength="200" name="contents"
+							class="formTextarea w650 ime_active" style="max-width: 634px;" th:field="*{page}" tabindex="3"></textarea>
+					</p>
+					
+					<br />
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
+   
+	$(document).ready(function(){
+	});
+	
+	// Temporary save or Registration/Update button
+	function submitBtn(formName, registStatus){		
+		/*<![CDATA[*/
+		// Set value for temporary save or registration		
+		// Define method for click OK button in confirm dialog
+		       	document.getElementById(formName).submit();
+		/*]]>*/
+	}
+	
+	</script>
+</body>
+</html>

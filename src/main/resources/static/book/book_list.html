@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head lang="ja" th:fragment="site-head">
+<title>Book List</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=11"></meta>
+
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" />
+<link rel="stylesheet" th:href="@{/book/css/notice.css}" type="text/css" />
+<link rel="stylesheet"
+	th:href="@{/plugins/jquery-ui-1.12.1/jquery-ui.css}" />
+
+<script th:src="@{/plugins/jquery-3.1.1.js}"></script>
+<script th:src="@{/plugins/jquery-ui-1.12.1/jquery-ui.js}"></script>
+<script th:src="@{/js/common.js}"></script>
+
+<script th:inline="javascript">
+
+// Initialize RehabiliStorage object
+
+$(document).ready(function(){
+	serverContextPath =  /*[[@{/}]]*/;
+});
+
+function post(path, params, method) {
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+        }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Click edit button
+function editBook(bookId) {
+	window.location.href= window.location.href + "/edit?id=" + bookId;
+};
+
+// Click delete button
+function deleteBook(bookId) {
+	post("/book/delete?id="+bookId);
+// 	window.location.href= window.location.href + "/delete?id=" + bookId;
+};
+
+//Click delete button
+function registerBook() {
+	window.location.href = window.location.href + "/add";
+};
+
+</script>
+</head>
+
+<body>
+	<div id="container">
+		<div id="main">
+			<div id="contents" class="main contents_box bg_white pt15 mt10"
+				style="min-height: 500px;">
+				<div id="action_group" class="text_right pr30">
+					<div>
+					<button type="button" th:onclick="'javascript:registerBook()'">Register new book</button>
+					</div>
+				</div>
+				<div id="book_table" class="table_list mt45 pl15 pb15">
+					<table>
+						<thead>
+							<tr style="height: 27px;">
+								<th  style="width: 50px;">ID</th>
+								<th style="width: 50px;" >Name</th>
+								<th style="width: 50px;" >Publisher</th>
+								<th style="width: 50px;" >Number of pages</th>
+								<th style="width: 669px;" ></th>
+								
+							</tr>
+						</thead>
+						<tbody th:if="${bookList}">
+							<tr th:each="book:${bookList}" style="position: relative;">
+								<td style="width: 50px;" class="text_center" th:text="${book.id}"></td>
+								<td style="width: 50px;" class="text_center"
+									th:text="${book.name}"></td>
+								<td style="width: 50px;" class="text_center"
+									th:text="${book.publisher}"></td>
+								<td style="width: 50px;" class="text_center"
+									th:text="${book.page}"></td>
+								<td style="width: 669px;" class="text_center">
+									<button type="button" th:onclick="'javascript:editBook(' + ${book.id} + ')'">Edit</button>
+									<button type="button" th:onclick="'javascript:deleteBook(' + ${book.id} + ')'">Delete</button>
+									<button type="button" th:onclick="'javascript:showImpressionList(' + ${book.id} + ')'">Show Impression</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+</html>
